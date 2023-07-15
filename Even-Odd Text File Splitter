@@ -1,0 +1,106 @@
+import java.io.*;
+import java.util.Objects;
+
+class Threadi extends Thread {
+    String S;
+
+    Threadi(String S1) {
+        S = S1;
+    }
+
+    public void run() {
+        FileWriter f2;
+        FileWriter f3;
+        int count = 0;
+        try {
+            f2 = new FileWriter("C:\\Users\\User\\Desktop\\File2.txt", true);
+            f3 = new FileWriter("C:\\Users\\User\\Desktop\\File3.txt", true);
+
+            char[] buffer = new char[S.length()];
+            S.getChars(0, S.length(), buffer, 0);
+            for (int i = 0; i < S.length(); i++) {
+                if (Objects.equals(buffer[i], ' ')) {
+                    count++;
+                }
+
+            }
+            if ((count + 1) % 2 == 0) {
+                f2.write(S + "\n");
+            } else {
+                f3.write(S + "\n");
+            }
+
+            f2.close();
+            f3.close();
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
+
+class Threadii extends Thread {
+    String S;
+
+    Threadii(String S1) {
+        S = S1;
+    }
+
+    public void run() {
+        FileWriter f2;
+        FileWriter f3;
+        int count = 0;
+        try {
+            f2 = new FileWriter("C:\\Users\\User\\Desktop\\File2.txt", true);
+            f3 = new FileWriter("C:\\Users\\User\\Desktop\\File3.txt", true);
+
+            char[] buffer = new char[S.length()];
+            S.getChars(0, S.length(), buffer, 0);
+            for (int i = 0; i < S.length(); i++) {
+                if (Objects.equals(buffer[i], ' ')) {
+                    count++;
+                }
+
+            }
+            if ((count + 1) % 2 == 0) {
+                f2.write(S + "\n");
+            } else {
+                f3.write(S + "\n");
+            }
+
+            f2.close();
+            f3.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
+
+public class Oddevenfiles {
+    public static void main(String[] args) throws IOException, ArithmeticException {
+        FileReader f1;
+
+        try {
+            f1 = new FileReader("C:\\Users\\User\\Desktop\\File1.txt");
+            BufferedReader br = new BufferedReader(f1);
+            String S;
+            int line = 1;
+            while (!Objects.equals(S = br.readLine(), null)) {
+                if (line % 2 == 1) {
+                    Threadi t1 = new Threadi(S);
+                    t1.start();
+                    line++;
+                } else {
+                    Threadii t2 = new Threadii(S);
+                    t2.start();
+                    line++;
+                }
+            }
+            f1.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ArithmeticException e) {
+            throw new ArithmeticException();
+        }
+    }
+}
